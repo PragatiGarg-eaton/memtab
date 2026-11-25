@@ -27,12 +27,14 @@ runs:
 
     - name: Coverage Report
       uses: 5monkeys/cobertura-action@v14
+      if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
       with:
         path: coverage.xml
         minimum_coverage: 70  # FYI this is for all files, not per file
         fail_below_threshold: true
 
     - uses: deblockt/cucumber-report-annotations-action@v1.7
+      if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
       with:
         access-token: ${{ inputs.access-token }}
         path: "cucumber.json"
